@@ -1,0 +1,62 @@
+@startuml
+title
+<font size=18 color=black>Система подавання заяв у ВНЗ на основі балів ЗНО
+<font size=16 color=black>Діаграма прецедентів
+end title
+
+
+' Set actors
+actor "Глядач" as Viewer
+actor "Студент" as Student
+actor "Адміністратор" as Admin
+
+' Use cases
+
+' Use case, general for everyone (General Use Case)
+usecase "<b>GUC</b>\nПерегляд поданих заяв" as GUC
+
+' Registration use case (RUC)
+usecase "<b>RUC</b>\nРеєстрація у системі" as RUC
+
+' Login use case (LIC)
+usecase "<b>LIC</b>\nВхід в обліковий запис" as LIC
+
+' Logout use case (LOC)
+usecase "<b>LOC</b>\nВихід з облікового запису" as LOC
+
+' Student use cases (SC)
+usecase "<b>SC-1</b>\nВнесення даних ЗНО" as SC1
+usecase "<b>SC-2</b>\nПодання заяв" as SC2
+usecase "<b>SC-3</b>\nВидалення заяв" as SC3
+
+' Admin use cases
+usecase "<b>AC-1</b>\nРедагування даних користувача Студент" as AC1
+usecase "<b>AC-2</b>\nВидалення заяв користувача Студент" as AC2
+usecase "<b>AC-3</b>\nВидалення облікового запису користувача Студент" as AC3
+
+' Derivation links
+Student -u-|> Viewer
+Admin -u-|> Viewer
+
+' Use case linking
+Viewer -u-> GUC
+Viewer -u-> RUC
+Viewer -u-> LIC
+
+Student -u-> LOC
+Admin -u-> LOC
+
+Student -l-> SC1
+Student -d-> SC2
+Student -r-> SC3
+
+Admin -d-> AC1
+Admin -r-> AC2
+Admin -u-> AC3
+
+right footer
+Система подавання заяв у ВНЗ на основі балів ЗНО. Модель прецедентів.
+НТУУ "КПІ" ім. Ігоря Сікорського
+Київ, 2020.
+end footer
+@enduml
