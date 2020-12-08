@@ -42,7 +42,7 @@
         "primary": "true"
       },
       {
-        "name": "u_name",
+        "name": "name",
         "type": "VARCHAR(255)"
       }
     ]
@@ -56,7 +56,7 @@
         "primary": "true"
       },
       {
-        "name": "f_name",
+        "name": "name",
         "type": "VARCHAR(100)"
       },
       {
@@ -78,7 +78,7 @@
         "primary": "true"
       },
       {
-        "name": "s_name",
+        "name": "name",
         "type": "VARCHAR(70)"
       },
       {
