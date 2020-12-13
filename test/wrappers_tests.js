@@ -16,9 +16,9 @@ const
 
 const errorAssertion = (errExpected, errMessage, ...asserted) => {
   try {
-   const callback = asserted.shift();
-   callback(...asserted);
-  } catch(e) {
+    const callback = asserted.shift();
+    callback(...asserted);
+  } catch (e) {
     assert.strictEqual(e.message, errExpected, errMessage);
   }
 };
