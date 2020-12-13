@@ -12,7 +12,8 @@ const
   cte2 = 'Attempt to create table without fields, table Foo',
   cte3 = 'Attempt to create table with a nameless field, table Foo',
   cte4 = 'Attempt to create table with a typeless field Bar, table Foo',
-  cte5 = 'Attempt to create table with a primary and foreign key field Bar, table Foo';
+  cte5 = 'Attempt to create table with a primary and foreign key' +
+    'field Bar, table Foo';
 
 const errorAssertion = (errExpected, errMessage, ...asserted) => {
   try {
