@@ -54,3 +54,43 @@ db.insertObj(spec3);
 db.insertObj(spec4);
 db.insertObj(spec5);
 db.insertObj(spec6);
+
+const student1 = new dbObj.Student(0);
+student1.email = 'st1@gmail.com';
+student1.password = 'password';
+student1.grade_1 = 193
+student1.grade_2 = 190
+student1.grade_3 = 200
+student1.certificate = 11.4
+  
+db.insertObj(student1);
+
+student2.email = 'st2@gmail.com';
+student2.password = '12345'
+student2.grade_1 = 160
+student2.grade_2 = 178
+student2.grade_3 = 189
+student2.certificate = 9.3
+  
+db.insertObj(student2);
+
+student3.email = 'st3@gmail.com';
+student3.password = 'st3pas'
+student3.grade_1 = 190
+student3.grade_2 = 178
+student3.grade_3 = 200
+student3.certificate = 10.6
+  
+db.insertObj(student3);
+
+const app11 = new dbObj.Application(0, 1, 1, 2);
+const app12 = new dbObj.Application(0, 2, 1, 4);
+const app21 = new dbObj.Application(0, 1, 2, 1);
+const app22 = new dbObj.Application(0, 2, 2, 3);
+const app31 = new dbObj.Application(0, 1, 3, 3);
+
+db.insertObj(app11);
+db.insertObj(app12);
+db.insertObj(app21);
+db.insertObj(app22);
+db.insertObj(app31);
