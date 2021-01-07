@@ -125,7 +125,7 @@ const
          'field Bar';
 
 errorAssertion(tce1, 'tce1', emptyDb.createTable);
-errorAssertion(tce2, 'tce2', db.createTable, {
+errorAssertion(tce2, 'tce2', emptyDb.createTable, {
   name: 'Foo'
 });
 
@@ -136,7 +136,7 @@ errorAssertion(tce3, 'tce3', emptyDb.createTable, {
   ]
 });
 
-errorAssertion(tce4, 'tce4', db.createTable, {
+errorAssertion(tce4, 'tce4', emptyDb.createTable, {
   name: 'Foo',
   fields: [
     {
@@ -145,7 +145,7 @@ errorAssertion(tce4, 'tce4', db.createTable, {
   ]
 });
 
-errorAssertion(tce5, 'tce5', db.createTable, {
+errorAssertion(tce5, 'tce5', emptyDb.createTable, {
   name: 'Foo',
   fields: [
     {
@@ -157,7 +157,7 @@ errorAssertion(tce5, 'tce5', db.createTable, {
   ]
 });
 
-errorAssertion(tce6, 'tce6', db.createTable, {
+errorAssertion(tce6, 'tce6', emptyDb.createTable, {
   name: 'Foo',
   fields: [
     {
@@ -167,3 +167,16 @@ errorAssertion(tce6, 'tce6', db.createTable, {
     }
   ]
 });
+
+
+const { initDB } = require('../lib/init.js');
+
+const db = initDB(':memory:');
+fillDb(db);
+
+const i = 'Insertion failed: missing argument list';
+
+errorAssertion(i, 'i1', db.insert); 
+errorAssertion(i, 'i2', db.insert, 'user');
+
+
