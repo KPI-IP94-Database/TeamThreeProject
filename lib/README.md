@@ -11,8 +11,13 @@ This file containes classes of errors which can arise during the data base worki
 
 There are wrappers which make it easier to interact with the data base. Here they are:
 
-### Database.insert(table, values)
 
+### Databse.createTable(tableModel)
+
+The table model is described in the main README.md file.
+
+
+### Database.insert(table, values)
 
 table - name of the table, string
 
@@ -22,14 +27,8 @@ Creates new row and inserts the values using
 predefined JSON scheme.
 
 
-### Databse.createTable(tableModel)
-
-The table model is described in the main README.md file
-
-
 ### Database.ifExists(table, field, value)
  
-
 table - name of the table, string
 
 field - name of the field to check, string
@@ -53,7 +52,6 @@ db.ifExists('user', 'email', e-mail, exists => {
 
 ### Database.ifAssExists(table, assField, assValue, field, value, callback)
 
-
 table - name of the table, string
 
 assField - name of the associated field to check, string
@@ -66,11 +64,11 @@ value - needed value to check, typed
 
 callback - callback, that takes the result, function
 
-Passes true to the callback if the value which is associated with another value is already inside the table.
+Passes true to the callback if the value which is associated with another
+value is already inside the table.
 
 
 ### Database.removeRow(table, field, value)
-
 
 table - name of the table, string
 
@@ -82,7 +80,6 @@ Removes all the associated rows.
  
 
 ### Database.update(table, field, value, newValue)
-
 
 table - name of the table, string
 
@@ -117,12 +114,17 @@ const user = db.get('user', 'email', e-mail, row => {
 });
 ```
 
+
 ## init.js
 
+File consists of one function initDB(path) which initializes the
+data base according to the table model. 
 
-File consists of one function initDB(path) which initializes the data base according to the table model. 
 `path` shows the place where the data base has to be initialized.
+
 
 ## dbObjects.js
 
-  
+This file consists of several objects according to the
+table model and objects model. More information about objects
+you can find in the `doc` folder.
