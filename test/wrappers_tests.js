@@ -3,10 +3,9 @@
 const assert = require('assert').strict;
 const sqlite3 = require('../lib/wrappers.js');
 const dbObj = require('../lib/dbObjects.js');
+const { initDB } = require('../lib/init.js');
 
-const emptyDb = new sqlite3.Database(':memory:', err => {
-  if (err) throw err;
-});
+// Function to fill the DB, which has tables according to the model
 
 const fillDb = db => {
   const univ1 = new dbObj.University(0, 'University of Foo');
@@ -98,6 +97,21 @@ const fillDb = db => {
   db.insertObj(app31);
 };
 
+/**
+ * errorAssertion(errExpected, assertionTitle, ...asserted)
+ * errExpected - expected message of error, string
+ * assertionTitle - short name of the assertion, string
+ *   The name of assertion is, for example, tce2,
+ *   if the error is TableCreationError, assertion number 2.
+ * ...asserted - the function which is checked and its
+ * arguments.
+ *
+ * errorAssertion breaks the principle "callback-last", but
+ * it's easier to read if the arguments of callback are
+ * placed after the callback.
+ */
+
+
 const errorAssertion = (errExpected, assertionTitle, ...asserted) => {
   try {
     const callback = asserted.shift();
@@ -114,11 +128,18 @@ const errorAssertion = (errExpected, assertionTitle, ...asserted) => {
 };
 
 
+// First we check the DB without any tables
+const emptyDb = new sqlite3.Database(':memory:', err => {
+  if (err) throw err;
+});
+
+// Prepare expected error names
 const
   tce1 = 'Attempt to create table without a name',
   tce2 = 'Attempt to create table without fields',
   tce3 = 'Attempt to create table with a nameless field',
   tce4 = 'Attempt to create table with a typeless field Bar',
+  // Pathetic way to stick to the eslint rules
   tce5 = 'Attempt to create table with a field Bar, which has ' +
          'primary and foreign key simultaneously',
   tce6 = 'Attempt to create table with no references in foreign key, ' +
@@ -169,14 +190,22 @@ errorAssertion(tce6, 'tce6', emptyDb.createTable, {
 });
 
 
-const { initDB } = require('../lib/init.js');
-
+// Initialize DB (this DB has tables)
 const db = initDB(':memory:');
+// Fill the DB
 fillDb(db);
 
+// Insertion error is common for two assertion cases
 const i = 'Insertion failed: missing argument list';
 
-errorAssertion(i, 'i1', db.insert); 
+// Insertion with no arguments
+errorAssertion(i, 'i1', db.insert);
+// Insertion with the name of a table, but no inserted values
 errorAssertion(i, 'i2', db.insert, 'user');
+// Insertion with no error, but not every field is full
+db.insert('user', ['pupkin_vasyl@ukr.ua', 'marcusaurelius']);
 
-
+// Check the result
+db.getObject('user', 'email', 'pupkin_vasyl@ukr.ua', row => {
+  console.dir({ row });
+});
