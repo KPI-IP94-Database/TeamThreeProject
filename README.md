@@ -32,7 +32,7 @@ The model of the data base is described in JSON format. The table model has the 
         "table": "name of referenced table",
         "pkey": "name of referenced primary key"
       },
-      "_comment": "You can use either the "primary": true or "fkey"
+      "_comment": "You can use either the primary: true or fkey"
     }
   ]
 }
