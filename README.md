@@ -22,20 +22,17 @@ The model of the data base is described in JSON format. The table model has the 
 
 ```javascript
 {
-  name: 'name of the table',
-  fields: [
+  "name": "name of the table",
+  "fields": [
     {
-      name: 'name of the field',
-      type: 'VARCHAR(50)', // for example
-      primary: false,
-      fkey: {
-        table: 'name of referenced table',
-        pkey: 'name of referenced primary key'
-      }
-      // fkey - foreign key
-      // pkey - primary key
-      // You can use either `primary: true` or
-      // `fkey: {}`
+      "name": "name of the field",
+      "type": "VARCHAR(50)",
+      "primary": false,
+      "fkey": {
+        "table": "name of referenced table",
+        "pkey": "name of referenced primary key"
+      },
+      "_comment": "You can use either the primary: true or fkey"
     }
   ]
 }
