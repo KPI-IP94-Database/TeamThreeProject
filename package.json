@@ -1,0 +1,14 @@
+{
+  "name": "TeamThreeProject",
+  "version": "0.4.2",
+  "description": "API for Ukrainian university applicants site",
+  "scripts": {
+    "test": "npm test/wrappers_tests.js"
+  },
+  "author": "TeamThree",
+  "license": "WTFPL",
+  "dependencies": {
+    "eslint": "^7.14.0",
+    "sqlite3": "^5.0.0"
+  }
+}
