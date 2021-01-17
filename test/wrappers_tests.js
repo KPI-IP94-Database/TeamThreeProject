@@ -134,15 +134,14 @@ const emptyDb = new sqlite3.Database(':memory:', err => {
 });
 
 // Prepare expected error names
-const
-  tce1 = 'Attempt to create table without a name',
-  tce2 = 'Attempt to create table without fields',
-  tce3 = 'Attempt to create table with a nameless field',
-  tce4 = 'Attempt to create table with a typeless field Bar',
+const tce1 = 'Attempt to create table without a name';
+const tce2 = 'Attempt to create table without fields';
+const tce3 = 'Attempt to create table with a nameless field';
+const tce4 = 'Attempt to create table with a typeless field Bar';
   // Pathetic way to stick to the eslint rules
-  tce5 = 'Attempt to create table with a field Bar, which has ' +
-         'primary and foreign key simultaneously',
-  tce6 = 'Attempt to create table with no references in foreign key, ' +
+const tce5 = 'Attempt to create table with a field Bar, which has ' +
+         'primary and foreign key simultaneously';
+const tce6 = 'Attempt to create table with no references in foreign key, ' +
          'field Bar';
 
 errorAssertion(tce1, 'tce1', emptyDb.createTable);
