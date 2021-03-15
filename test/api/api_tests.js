@@ -3,30 +3,46 @@
 const assert = require('assert').strict;
 const { User, Application } = require('../../lib/dbObjects');
 
-getUserTest();
-getApplicationsTest();
-editApplicationTest();
-removeApplicationTest();
+// Prepared functions
 
-function getUserTest() {
-  const email = '1234@test.test';
+// TODO: (1) status is returned as a complex JSON
+
+const getUserTest = email => {
+  // TODO: (2) prepare test DB and asserted data
   assert.strictEqual(getUser(email), new User());
 }
 
-function getApplicationsTest() {
-  const userId = 10;
+const getApplicationsTest = userId, assertedApplications => {
   assert.strictEqual(
     getApplications(userId),
-    [new Application(), new Application()]
+    assertedApplications
   );
 }
 
-function editApplicationTest() {
+const editApplicationTest = () => {
   const aplc = new Application();
+  // TODO: (2)
   assert.strictEqual(editApplication(aplc), true);
 }
 
-function removeApplicationTest() {
-  const aplcId = 20;
+const removeApplicationTest = aplcId => {
   assert.strictEqual(removeApplication(aplcId), true);
 }
+
+// Test part
+
+// getUser
+const email = '1234@test.test';
+getUserTest(email);
+
+// getApplications
+const userId = 10;
+const appList = [new Application(), new Application()]
+getApplicationsTest(userId, appList);
+
+// editApplication
+editApplicationTest();
+
+// removeApplication
+const aplcId = 20;
+removeApplicationTest(aplcId);
