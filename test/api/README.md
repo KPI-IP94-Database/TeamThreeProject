@@ -6,28 +6,28 @@
 
 Input: `needed user data`
 
-Output: `user id, generated token`
+Output: `generated token`
 
 ### authorize
 
-Input: `user id, hash(last token + date)`
-
-NOTE: if the last token isn't in memory, generate hash of
-`hash of password + date`
+Input: `email, hash(password)`
 
 Output: `new generated token`
 
 ### getUser
 
-Input: `email of a user`
+TODO: rename the function, because you get the
+info only about you.
+
+Input: `token`
 
 Returns: `user data`
 
 ### getApplications
 
-Input: `user id`
+Input: `token, speciality uid`
 
-Returns: `array of applications of given user`
+Returns: `array of applications for the uid`
 
 ### editApplication
 
