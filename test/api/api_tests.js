@@ -1,7 +1,7 @@
 'use strict';
 
-const assert = require('assert').strict;
 const { User, Application } = require('../../lib/dbObjects');
+const { equals } = require('../utils');
 
 // Prepared functions
 
@@ -9,25 +9,25 @@ const { User, Application } = require('../../lib/dbObjects');
 
 const getUserTest = email => {
   // TODO: (2) prepare test DB and asserted data
-  assert.strictEqual(getUser(email), new User());
-}
+  equals(getUser(email), new User());
+};
 
-const getApplicationsTest = userId, assertedApplications => {
-  assert.strictEqual(
+const getApplicationsTest = (userId, assertedApplications) => {
+  equals(
     getApplications(userId),
     assertedApplications
   );
-}
+};
 
 const editApplicationTest = () => {
   const aplc = new Application();
   // TODO: (2)
-  assert.strictEqual(editApplication(aplc), true);
-}
+  equals(editApplication(aplc), true);
+};
 
 const removeApplicationTest = aplcId => {
-  assert.strictEqual(removeApplication(aplcId), true);
-}
+  equals(removeApplication(aplcId), true);
+};
 
 // Test part
 
@@ -37,7 +37,7 @@ getUserTest(email);
 
 // getApplications
 const userId = 10;
-const appList = [new Application(), new Application()]
+const appList = [new Application(), new Application()];
 getApplicationsTest(userId, appList);
 
 // editApplication
