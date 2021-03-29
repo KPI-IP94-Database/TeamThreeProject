@@ -9,6 +9,7 @@
   "license": "WTFPL",
   "dependencies": {
     "eslint": "^7.14.0",
-    "sqlite3": "^5.0.0"
+    "sqlite3": "^5.0.0",
+    "voda": "^0.1.2"
   }
 }

@@ -4,6 +4,7 @@ const assert = require('assert').strict;
 const sqlite3 = require('../lib/wrappers.js');
 const dbObj = require('../lib/dbObjects.js');
 const { initDB } = require('../lib/init.js');
+const { test } = require('voda');
 
 // Function to fill the DB, which has tables according to the model
 
@@ -133,60 +134,105 @@ const emptyDb = new sqlite3.Database(':memory:', err => {
   if (err) throw err;
 });
 
-// Prepare expected error names
-const tce1 = 'Attempt to create table without a name';
-const tce2 = 'Attempt to create table without fields';
-const tce3 = 'Attempt to create table with a nameless field';
-const tce4 = 'Attempt to create table with a typeless field Bar';
-  // Pathetic way to stick to the eslint rules
-const tce5 = 'Attempt to create table with a field Bar, which has ' +
-         'primary and foreign key simultaneously';
-const tce6 = 'Attempt to create table with no references in foreign key, ' +
-         'field Bar';
 
-errorAssertion(tce1, 'tce1', emptyDb.createTable);
-errorAssertion(tce2, 'tce2', emptyDb.createTable, {
-  name: 'Foo'
-});
+test('Create table with no parameter')
+  .fails(() => {
+    emptyDb.createTable();
+  })
+  .throws({
+    name: 'TableCreationError',
+    message: 'Attempt to create table without a name'
+  });
 
-errorAssertion(tce3, 'tce3', emptyDb.createTable, {
-  name: 'Foo',
-  fields: [
-    { }
-  ]
-});
+test('Create table, parameter is a void object')
+  .fails(() => {
+    emptyDb.createTable({});
+  })
+  .throws({
+    name: 'TableCreationError',
+    message: 'Attempt to create table without a name'
+  });
 
-errorAssertion(tce4, 'tce4', emptyDb.createTable, {
-  name: 'Foo',
-  fields: [
-    {
-      name: 'Bar'
-    }
-  ]
-});
+test('Create table with no fields')
+  .fails(() => {
+    emptyDb.createTable({
+      name: 'Foo'
+    });
+  })
+  .throws({
+    name: 'TableCreationError',
+    message: 'Attempt to create table without fields'
+  });
 
-errorAssertion(tce5, 'tce5', emptyDb.createTable, {
-  name: 'Foo',
-  fields: [
-    {
-      name: 'Bar',
-      type: 'INTEGER',
-      primary: true,
-      fkey: { }
-    }
-  ]
-});
+test('Create table with a void field')
+  .fails(() => {
+    emptyDb.createTable({
+      name: 'Foo',
+      fields: [
+        { }
+      ]
+    });
+  })
+  .throws({
+    name: 'TableCreationError',
+    message: 'Attempt to create table with a nameless field'
+  });
 
-errorAssertion(tce6, 'tce6', emptyDb.createTable, {
-  name: 'Foo',
-  fields: [
-    {
-      name: 'Bar',
-      type: 'INTEGER',
-      fkey: { }
-    }
-  ]
-});
+test('Create table with a typeless field')
+  .fails(() => {
+    emptyDb.createTable({
+      name: 'Foo',
+      fields: [
+        {
+          name: 'Bar'
+        }
+      ]
+    });
+  })
+  .throws({
+    name: 'TableCreationError',
+    message: 'Attempt to create table with a typeless field Bar'
+  });
+
+test('Create table with a primary-foreign key')
+  .fails(() => {
+    emptyDb.createTable({
+      name: 'Foo',
+      fields: [
+        {
+          name: 'Bar',
+          type: 'INTEGER',
+          primary: true,
+          fkey: { }
+        }
+      ]
+    });
+  })
+  .throws({
+    name: 'TableCreationError',
+    message: 'Attempt to create table with a field Bar, which has ' +
+      'primary and foreign key simultaneously'
+  });
+
+test('Create table with a foreign key, which has no references')
+  .fails(() => {
+    emptyDb.createTable({
+      name: 'Foo',
+      fields: [
+        {
+          name: 'Bar',
+          type: 'INTEGER',
+          fkey: { }
+        }
+      ]
+    });
+  })
+  .throws({
+    name: 'TableCreationError',
+    message: 'Attempt to create table with no references in foreign key, ' +
+         'field Bar'
+  });
+
 
 
 // Initialize DB (this DB has tables)
