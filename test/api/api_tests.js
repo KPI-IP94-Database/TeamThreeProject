@@ -2,6 +2,8 @@
 
 const { User, Application } = require('../../lib/dbObjects');
 const { equals } = require('../utils');
+const userController = require('../../lib/api/controllers/userController');
+const applicationController = require('../../lib/api/controllers/applicationController');
 
 // Prepared functions
 
@@ -9,12 +11,12 @@ const { equals } = require('../utils');
 
 const getUserTest = email => {
   // TODO: (2) prepare test DB and asserted data
-  equals(getUser(email), new User());
+  equals(userController.getUserByEmail(email), new User());
 };
 
 const getApplicationsTest = (userId, assertedApplications) => {
   equals(
-    getApplications(userId),
+    applicationController.getApplicationsByStudentId(userId),
     assertedApplications
   );
 };
@@ -22,11 +24,11 @@ const getApplicationsTest = (userId, assertedApplications) => {
 const editApplicationTest = () => {
   const aplc = new Application();
   // TODO: (2)
-  equals(editApplication(aplc), true);
+  equals(applicationController.editApplication(aplc), true);
 };
 
 const removeApplicationTest = aplcId => {
-  equals(removeApplication(aplcId), true);
+  equals(applicationController.removeApplicationById(aplcId), true);
 };
 
 // Test part
