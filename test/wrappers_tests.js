@@ -1,6 +1,5 @@
 'use strict';
 
-const assert = require('assert').strict;
 const sqlite3 = require('../lib/wrappers.js');
 const dbObj = require('../lib/dbObjects.js');
 const { initDB } = require('../lib/init.js');
@@ -96,36 +95,6 @@ const fillDb = db => {
   db.insertObj(app21);
   db.insertObj(app22);
   db.insertObj(app31);
-};
-
-/**
- * errorAssertion(errExpected, assertionTitle, ...asserted)
- * errExpected - expected message of error, string
- * assertionTitle - short name of the assertion, string
- *   The name of assertion is, for example, tce2,
- *   if the error is TableCreationError, assertion number 2.
- * ...asserted - the function which is checked and its
- * arguments.
- *
- * errorAssertion breaks the principle "callback-last", but
- * it's easier to read if the arguments of callback are
- * placed after the callback.
- */
-
-
-const errorAssertion = (errExpected, assertionTitle, ...asserted) => {
-  try {
-    const callback = asserted.shift();
-    callback(...asserted);
-  } catch (e) {
-    assert.strictEqual(e.message, errExpected, assertionTitle + ' failed');
-    console.dir({
-      assertionTitle,
-      errorName: e.name,
-      message: e.message,
-      table: e.tableName
-    });
-  }
 };
 
 
@@ -233,6 +202,19 @@ test('Create table with a foreign key, which has no references')
          'field Bar'
   });
 
+test('Create table with a valid DB model')
+  .passes(() => {
+    emptyDb.createTable({
+      name: 'Foo',
+      fields: [
+        {
+          name: 'Bar',
+          type: 'INTEGER',
+          primary: true
+        }
+      ]
+    });
+  });
 
 
 // Initialize DB (this DB has tables)
@@ -240,17 +222,65 @@ const db = initDB(':memory:');
 // Fill the DB
 fillDb(db);
 
-// Insertion error is common for two assertion cases
-const i = 'Insertion failed: missing argument list';
 
-// Insertion with no arguments
-errorAssertion(i, 'i1', db.insert);
-// Insertion with the name of a table, but no inserted values
-errorAssertion(i, 'i2', db.insert, 'user');
-// Insertion with no error, but not every field is full
-db.insert('user', ['pupkin_vasyl@ukr.ua', 'marcusaurelius']);
+test('Insertion with no arguments')
+  .fails(() => {
+    db.insert();
+  })
+  .throws({
+    name: 'InsertionError',
+    message: 'Insertion failed: missing argument list'
+  });
 
-// Check the result
+test('Insertion with the name of a table, but no inserted values')
+  .fails(() => {
+    db.insert('user');
+  })
+  .throws({
+    name: 'InsertionError',
+    message: 'Insertion failed: missing argument list'
+  });
+
+test('Insertion with no error, but not every field is full')
+  .passes(() => {
+    db.insert('user', ['pupkin_vasyl@ukr.ua', 'marcusaurelius']);
+  });
+
 db.getObject('user', 'email', 'pupkin_vasyl@ukr.ua', row => {
-  console.dir({ row });
+  test('Get the valid row for Pupkin Vasyl')
+    .passes(() => row)
+    .returns({
+      email: 'pupkin_vasyl@ukr.ua',
+      password: 'marcusaurelius'
+    });
 });
+
+
+db.ifExists('user', 'email', 'st1@gmail.com', res => {
+  test('Checking if exists user st1, inserted using fillDb()')
+    .passes(() => res)
+    .returns(true);
+});
+
+db.ifAssExists('user', 'email', 'st2@gmail.com', 'password', '12345', res => {
+  test('Checking if exists st2 with assotiated password')
+    .passes(() => res)
+    .returns(true);
+});
+
+db.removeRow('user', 'email', 'st3@gmail.com')
+  .ifExists('user', 'email', 'st3@gmail.com', res => {
+    test('Remove user st3 and check whether he exists')
+      .passes(() => res)
+      .returns(false);
+  });
+
+db.update('user', 'email', 'st2@gmail.com', 'st9@gmail.com')
+  .getObject('user', 'email', 'st9@gmail.com', row => {
+    test('Update data for st2 (now he is st9)')
+      .passes(() => row)
+      .returns({
+        email: 'st9@gmail.com',
+        password: '12345'
+      });
+  });
