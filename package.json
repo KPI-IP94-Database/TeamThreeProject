@@ -2,13 +2,15 @@
   "name": "TeamThreeProject",
   "version": "0.4.2",
   "description": "API for Ukrainian university applicants site",
+  "main": "index.js",
   "scripts": {
-    "test": "npm test/wrappers_tests.js"
+    "test": "node test/wrappers_tests.js"
   },
   "author": "TeamThree",
   "license": "WTFPL",
   "dependencies": {
     "eslint": "^7.14.0",
+    "express": "^4.17.1",
     "sqlite3": "^5.0.0",
     "voda": "^0.1.2"
   }
