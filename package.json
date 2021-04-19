@@ -4,7 +4,8 @@
   "description": "API for Ukrainian university applicants site",
   "main": "index.js",
   "scripts": {
-    "test": "node test/wrappers_tests.js"
+    "test": "node test/wrappers_tests.js",
+    "start": "node index.js"
   },
   "author": "TeamThree",
   "license": "WTFPL",
