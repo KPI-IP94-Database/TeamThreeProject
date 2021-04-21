@@ -15,6 +15,7 @@ results of the national evaluating (ZNO), high school priorities, etc.
   - [ ] Needed folders
   - [ ] SQL query templates
   - [ ] API routing
+  - [ ] Secure data storage and exchange
 - [ ] Create API
   - [ ] Hello World
   - [ ] Route handling
