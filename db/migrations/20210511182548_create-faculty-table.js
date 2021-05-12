@@ -1,7 +1,17 @@
-exports.up = (knex) => {
-  
-};
+exports.up = (knex) =>
+  knex.schema.createTable('faculty', (table) => {
+    table.increments('id')
+      .unsigned()
+      .primary();
 
-exports.down = (knex) => {
-  
-};
+    table.string('name')
+      .notNullable();
+
+    table.integer('university_id')
+      .references('university.id')
+      .notNullable();
+  });
+
+
+exports.down = (knex) =>
+  knex.schema.dropTable('faculty');
