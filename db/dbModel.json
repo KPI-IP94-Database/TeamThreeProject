@@ -9,26 +9,30 @@
       },
       {
         "name": "email",
-        "type": "VARCHAR(70)"
-      },
-      {
-        "name": "password",
         "type": "VARCHAR(255)"
       },
       {
-        "name": "grade_1",
+        "name": "password_hash",
+        "type": "VARCHAR(255)"
+      },
+      {
+        "name": "salt",
+        "type": "VARCHAR(255)"
+      },
+      {
+        "name": "grade_first",
         "type": "DOUBLE"
       },
       {
-        "name": "grade_2",
+        "name": "grade_second",
         "type": "DOUBLE"
       },
       {
-        "name": "grade_3",
+        "name": "grade_third",
         "type": "DOUBLE"
       },
       {
-        "name": "certificate",
+        "name": "grade_certificate",
         "type": "DOUBLE"
       }
     ]
@@ -125,7 +129,22 @@
       },
       {
         "name": "priority",
-        "type": "INTEGER"
+        "type": {
+          "sql_type": "ENUM",
+          "possible_values": [1, 2, 3, 4, 5, 6, 7, "K"]
+        }
+      },
+      {
+        "name": "status",
+        "type": {
+          "sql_type": "ENUM",
+          "possible_values": [
+            "RECEIVED",
+            "COMMERCE_RECOMMEND",
+            "BUDGET_RECOMMEND",
+            "IN_THE_ORDER"
+          ]
+        }
       }
     ]
   }
