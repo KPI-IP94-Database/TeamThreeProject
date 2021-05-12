@@ -7,13 +7,16 @@ results of the national evaluating (ZNO), high school priorities, etc.
 
 * Engine: Node.JS
 * Framework: `fastify`
-* DB: SQLite (`better-sqlite3`)
+* DB: PostgreSQL (`pg`)
+* SQL Query builder: `knex`
 
 ## TO-DO:
 
 - [ ] Develop project hierarchy
   - [ ] Needed folders
   - [ ] SQL query templates
+    - [x] Migrations (creating and droping tables)
+    - [ ] API queries
   - [ ] API routing
   - [ ] Secure data storage and exchange
 - [ ] Create API
@@ -24,6 +27,7 @@ results of the national evaluating (ZNO), high school priorities, etc.
   - [ ] Pass ESLint checking
   - [ ] Write tests (TDD is prefered)
   - [ ] Documentation for the API (route `/docs`)
+  - [ ] Write script so it unpacks the API
 
 ## Members
 
@@ -31,27 +35,3 @@ results of the national evaluating (ZNO), high school priorities, etc.
 * [Illya Tsasuk](https://github.com/asdf2107)
 * [Yelyzaveta Dolgova](https://github.com/lizzochek)
 
-## HowItWorks
-
-The model of the data base is described in JSON format.
-The table model has the following structure:
-
-```javascript
-{
-  "name": "name of the table",
-  "fields": [
-    {
-      "name": "name of the field",
-      "type": "VARCHAR(50)",
-      "primary": false,
-      "fkey": {
-        "table": "name of referenced table",
-        "pkey": "name of referenced primary key"
-      },
-      "_comment": "You can use either the primary: true or fkey"
-    }
-  ]
-}
-```
-
-- [ ] Decide whether the DB will be unpacked using the JSON model
