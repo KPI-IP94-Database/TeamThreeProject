@@ -10,6 +10,11 @@ results of the national evaluating (ZNO), high school priorities, etc.
 * DB: PostgreSQL (`pg`)
 * SQL Query builder: `knex`
 
+Development additions (not necessary to launch the server):
+
+* Codestyle check system: ESLint
+* Test framework: Jest
+
 ## TO-DO:
 
 - [ ] Develop project hierarchy
@@ -20,7 +25,7 @@ results of the national evaluating (ZNO), high school priorities, etc.
   - [ ] API routing
   - [ ] Secure data storage and exchange
 - [ ] Create API
-  - [ ] Hello World
+  - [x] Hello World
   - [ ] Route handling
   - [ ] Secure data exchange with JWT (or other technology)
 - [ ] Make everything else so the project looks shiny
@@ -34,4 +39,3 @@ results of the national evaluating (ZNO), high school priorities, etc.
 * [Rekechynsky Dmytro](https://github.com/rocket111185)
 * [Illya Tsasuk](https://github.com/asdf2107)
 * [Yelyzaveta Dolgova](https://github.com/lizzochek)
-
