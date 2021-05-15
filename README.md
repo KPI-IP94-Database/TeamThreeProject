@@ -15,6 +15,13 @@ Development additions (not necessary to launch the server):
 * Codestyle check system: ESLint
 * Test framework: Jest
 
+## Docker container
+
+Visit [the link](https://hub.docker.com/repository/docker/dment/ua-apply-api)
+in order to see the contatiner.
+
+Run using command `sudo docker run run --network host -d ua-apply-api:latest`
+
 ## TO-DO:
 
 - [ ] Develop project hierarchy
