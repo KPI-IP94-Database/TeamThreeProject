@@ -13,7 +13,6 @@ jobs:
           - 15
         os:
           - ubuntu-latest
-          - windows-latest
           - macos-latest
 
     steps:
@@ -29,5 +28,4 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-
       - run: npm i
-      - run: npm ci
       - run: npm test
