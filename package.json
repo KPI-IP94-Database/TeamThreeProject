@@ -6,7 +6,8 @@
   "license": "WTFPL",
   "scripts": {
     "start": "node src/main.js",
-    "test": "./node_modules/jest/bin/jest.js --coverage"
+    "test": "./node_modules/jest/bin/jest.js --coverage",
+    "migrate": "./node_modules/knex/bin/cli.js migrate:latest --env=development"    
   },
   "dependencies": {
     "fastify": "^3.14.2",
