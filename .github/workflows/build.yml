@@ -8,12 +8,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        node:
-          - 14
-          - 15
-
     services:
       postgres:
         image: postgres
@@ -29,10 +23,10 @@ jobs:
       - name: Check out repo
         uses: actions/checkout@v2
       
-      - name: Use Node.js ${{ matrix.node }}
+      - name: Use Node.js v14
         uses: actions/setup-node@v1
         with:
-          node-version: ${{ matrix.node }}
+          node-version: 14
       
       - name: Cache project files
         uses: actions/cache@v2
