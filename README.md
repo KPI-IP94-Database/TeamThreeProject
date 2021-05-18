@@ -20,7 +20,8 @@ Development additions (not necessary to launch the server):
 Visit [the link](https://hub.docker.com/repository/docker/dment/ua-apply-api)
 in order to see the contatiner.
 
-Run using command `sudo docker run run --network host -d ua-apply-api:latest`
+Run using command `sudo docker run --network host -d dment/ua-apply-api:latest`
+Run tests using `sudo docker run -e CI=true dment/ua-apply-api:latest npm run test`
 
 ## TO-DO:
 
