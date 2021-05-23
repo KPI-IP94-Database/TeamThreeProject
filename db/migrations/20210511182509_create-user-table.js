@@ -13,10 +13,23 @@ exports.up = (knex) =>
     table.string('salt')
       .notNullable();
 
-    table.float('grade_first');
-    table.float('grade_second');
-    table.float('grade_third');
+    table.string('fullname')
+      .notNullable();
+
+
+    table.float('grade_first')
+      .notNullable();
+
+    table.float('grade_second')
+      .notNullable();
+
+    table.float('grade_third')
+      .notNullable();
+
+
+    table.float('grade_fourth');
     table.float('grade_certificate');
+    table.float('additional_score');
   });
 
 

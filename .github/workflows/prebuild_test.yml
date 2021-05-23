@@ -1,16 +1,17 @@
-name: Testing CI
+name: Test before build
+
+# This file has the same content as test.yml
+# It's such a workaround in order to run jobs
+# described inside build.yml after the test, but
+# only for pushes to master branch.
+#
+# If you know how to implement the job dependency 
+# better, send a PR, please.
 
 on:
   push:
     branches:
-      - '**'
-      - !master
-  pull_request:
-    branches:
-      - '**'
-
-# '*' would accepted branch names without '/'.
-# So it's useful to write '**'.
+      - master
 
 jobs:
   build:

@@ -36,11 +36,12 @@ const routes = urlConstructor({
 
 // Register plugin for every route
 for (const route of routes) {
-  const pluginPath = './routes' + route + '/index.js';
-  const plugin = require(pluginPath);
+  const pluginPath = './routes' + route + '.js';
+  const plugin = require(pluginPath)(route);
   fastify.register(plugin);
 }
 
+// Listen on port 3000
 fastify.listen(3000, (err, address) => {
   if (err) throw err;
   fastify.log.info(`Server listening on ${address}`);
