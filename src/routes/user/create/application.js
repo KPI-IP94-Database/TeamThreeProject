@@ -1,6 +1,6 @@
 'use strict';
 
-module.exports = (url) => async (fastify, options) => {
+module.exports = (url) => async (fastify) => {
   fastify.route({
     method: 'POST',
     url,

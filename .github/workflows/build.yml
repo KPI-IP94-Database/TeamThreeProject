@@ -3,8 +3,9 @@ name: Build
 on:
   workflow_run:
     workflows: [ "Test before build" ]
-    types: 
-      - completed
+    branches: [ "master" ]
+    types:
+      - "completed"
 
 jobs:
   build:

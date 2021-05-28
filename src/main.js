@@ -6,6 +6,7 @@ const fastify = require('fastify')({
 });
 const knex = require('knex');
 const { urlConstructor } = require('../lib/urlConstructor.js');
+const { hashPassword } = require('../lib/passwordHasher.js');
 
 // Import configs
 const configuration = require('../knexfile.js');
@@ -18,6 +19,11 @@ if (!fastify.knex) {
   fastify.decorate('knex', connector);
 }
 
+// Also decorate `hashPassword`
+if (!fastify.hashPassword) {
+  fastify.decorate('hashPassword', hashPassword);
+}
+
 // Write list of routes
 const routes = urlConstructor({
   user: {
@@ -25,12 +31,12 @@ const routes = urlConstructor({
       'application',
       'new-user'
     ],
-    // get: [
-    //   'application-list',
-    //   'bio'
-    // ],
-    // remove: 'application',
-    // update: 'password'
+    get: [
+      'application-list',
+      'bio'
+    ],
+    remove: 'application',
+    update: 'password'
   }
 });
 

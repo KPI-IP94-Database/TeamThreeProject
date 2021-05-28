@@ -1,20 +1,5 @@
 'use strict';
 
-// Upscaling...
-// Why not to make files inside lib/ global, too?
-const { hashPassword } = require('../../../../lib/passwordHasher.js');
-
-// Common scheme for response
-const responseScheme = {
-  type: 'object',
-  required: [ 'statusCode', 'message' ],
-  properties: {
-    statusCode: { type: 'number' },
-    error: { type: 'string' },
-    message: { type: 'string' }
-  }
-};
-
 // Common scheme for one of 4 grades
 const gradeType = {
   type: 'number',
@@ -64,7 +49,7 @@ Object.assign(schemeProps, {
 const acceptedProps = Object.keys(schemeProps);
 
 
-module.exports = (url) => async (fastify, options) => {
+module.exports = (url) => async (fastify) => {
   fastify.route({
     method: 'POST',
     url,
@@ -74,16 +59,6 @@ module.exports = (url) => async (fastify, options) => {
         propertyNames: { enum: acceptedProps },
         required: requiredProps,
         properties: schemeProps
-      },
-      response: {
-        // If the request fails scheme validation,
-        // Fastify automatically returns status 400
-
-        // Successful insert
-        201: responseScheme,
-
-        // Duplicate data
-        409: responseScheme,
       }
     },
 
@@ -101,7 +76,7 @@ module.exports = (url) => async (fastify, options) => {
         return;
       }
 
-      const hashContainer = hashPassword(request.body.password);
+      const hashContainer = fastify.hashPassword(request.body.password);
       const insertedObj = {
         password_hash: hashContainer.passwordHash,
         salt: hashContainer.passwordSalt
@@ -124,4 +99,3 @@ module.exports = (url) => async (fastify, options) => {
 
   });
 };
-
