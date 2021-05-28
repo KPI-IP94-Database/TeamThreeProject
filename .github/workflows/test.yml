@@ -25,7 +25,10 @@ jobs:
       postgres:
         image: postgres
         env:
+          POSTGRES_DB: applicants
           POSTGRES_PASSWORD: postgres
+          POSTGRES_HOST: localhost
+          POSTGRES_PORT: 5432
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
@@ -57,13 +60,6 @@ jobs:
 
       - name: Run migrations
         run: npm run migrate
-        env:
-          POSTGRES_HOST: localhost
-          POSTGRES_PORT: 5432
 
       - name: Run tests      
         run: npm test
-        env:
-          POSTGRES_HOST: localhost
-          POSTGRES_PORT: 5432
-
