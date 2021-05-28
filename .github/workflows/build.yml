@@ -2,7 +2,7 @@ name: Build
 
 on:
   workflow_run:
-    workflows: [ "Test before build" ]
+    workflows: [ "Testing CI" ]
     branches: [ "master" ]
     types:
       - "completed"
