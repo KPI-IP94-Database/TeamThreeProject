@@ -22,7 +22,7 @@ const schemeProps = {
     type: 'number',
     minimum: 0,
     maximum: 12,
-  }
+  },
 };
 
 const requiredProps = Object.keys(schemeProps);
@@ -42,12 +42,11 @@ Object.assign(schemeProps, {
   additional_score: {
     type: 'number',
     minimum: 10,
-    maximum: 10
-  }
+    maximum: 10,
+  },
 });
 
 const acceptedProps = Object.keys(schemeProps);
-
 
 module.exports = (url) => async (fastify) => {
   fastify.route({
@@ -58,12 +57,13 @@ module.exports = (url) => async (fastify) => {
         type: 'object',
         propertyNames: { enum: acceptedProps },
         required: requiredProps,
-        properties: schemeProps
-      }
+        properties: schemeProps,
+      },
     },
 
     handler: async (request, reply) => {
-      const existingEmails = await fastify.knex.select('email')
+      const existingEmails = await fastify.knex
+        .select('email')
         .from('user')
         .where('email', request.body.email);
 
@@ -79,11 +79,12 @@ module.exports = (url) => async (fastify) => {
       const hashContainer = fastify.hashPassword(request.body.password);
       const insertedObj = {
         password_hash: hashContainer.passwordHash,
-        salt: hashContainer.passwordSalt
+        salt: hashContainer.passwordSalt,
       };
 
-      const keys = Object.keys(request.body)
-        .filter((key) => key !== 'password');
+      const keys = Object.keys(request.body).filter(
+        (key) => key !== 'password'
+      );
 
       for (const key of keys) {
         insertedObj[key] = request.body[key];
@@ -95,7 +96,6 @@ module.exports = (url) => async (fastify) => {
         statusCode: 201,
         message: 'The user is added to DB',
       });
-    }
-
+    },
   });
 };

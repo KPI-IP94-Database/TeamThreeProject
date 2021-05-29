@@ -2,7 +2,7 @@
 
 // Import needed dependencies
 const fastify = require('fastify')({
-  logger: true
+  logger: true,
 });
 const knex = require('knex');
 const { urlConstructor } = require('../lib/urlConstructor.js');
@@ -27,17 +27,11 @@ if (!fastify.hashPassword) {
 // Write list of routes
 const routes = urlConstructor({
   user: {
-    create: [
-      'application',
-      'new-user'
-    ],
-    get: [
-      'application-list',
-      'bio'
-    ],
+    create: ['application', 'new-user'],
+    get: ['application-list', 'bio'],
     remove: 'application',
-    update: 'password'
-  }
+    update: 'password',
+  },
 });
 
 // Register plugin for every route

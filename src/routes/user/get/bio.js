@@ -2,7 +2,7 @@
 
 const schemeProps = {
   email: { type: 'string' },
-  password: { type: 'string' }
+  password: { type: 'string' },
 };
 
 const requiredProps = Object.keys(schemeProps);
@@ -16,12 +16,13 @@ module.exports = (url) => async (fastify) => {
         type: 'object',
         propertyNames: { enum: requiredProps },
         required: requiredProps,
-        properties: schemeProps
-      }
+        properties: schemeProps,
+      },
     },
 
     handler: async (request, reply) => {
-      const existingUsers = await fastify.knex.select('*')
+      const existingUsers = await fastify.knex
+        .select('*')
         .from('user')
         .where('email', request.query.email);
 
@@ -37,8 +38,10 @@ module.exports = (url) => async (fastify) => {
       // Every user has unique email
       const userData = existingUsers[0];
 
-      const { passwordHash } =
-        fastify.hashPassword(request.query.password, userData.salt);
+      const { passwordHash } = fastify.hashPassword(
+        request.query.password,
+        userData.salt
+      );
 
       if (passwordHash !== userData.password_hash) {
         reply.code(403).send({
@@ -49,10 +52,11 @@ module.exports = (url) => async (fastify) => {
         return;
       }
 
-      const secretProps = [ 'id', 'password_hash', 'salt' ];
+      const secretProps = ['id', 'password_hash', 'salt'];
 
-      const replyKeys = Object.keys(userData)
-        .filter((key) => !secretProps.includes(key));
+      const replyKeys = Object.keys(userData).filter(
+        (key) => !secretProps.includes(key)
+      );
 
       const replyBody = {};
       for (const key of replyKeys) {
@@ -61,9 +65,8 @@ module.exports = (url) => async (fastify) => {
 
       return {
         statusCode: 200,
-        body: replyBody
+        body: replyBody,
       };
-    }
-
+    },
   });
 };

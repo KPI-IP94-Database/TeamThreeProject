@@ -43,7 +43,7 @@
       "always"
     ],
     "strict": [
-      "off"
+      "error"
     ],
     "brace-style": [
       "error",
