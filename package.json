@@ -6,8 +6,8 @@
   "license": "WTFPL",
   "scripts": {
     "start": "node src/main.js",
-    "test": "npx jest",
-    "jest-cov": "npx jest --coverage",
+    "test": "npx jest --detectOpenHandles --forceExit",
+    "jest-cov": "npm t -- --coverage",
     "migrate": "npx knex migrate:latest --env=development"
   },
   "dependencies": {
