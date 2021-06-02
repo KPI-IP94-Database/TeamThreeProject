@@ -5,23 +5,23 @@ module.exports = {
       host: '127.0.0.1',
       user: 'postgres',
       password: 'postgres',
-      database: 'applicants'
+      database: 'applicants',
     },
     migrations: {
-      directory: './db/migrations'
+      directory: './db/migrations',
     },
     seeds: {
-      directory: './db/seeds/dev'
+      directory: './db/seeds/dev',
     },
-    useNullAsDefault: true
+    useNullAsDefault: true,
   },
 
   test: {
     client: 'sqlite3',
     connection: {
-      filename: ':memory:'
+      filename: ':memory:',
     },
-    useNullAsDefault: true
+    useNullAsDefault: true,
   },
 
   production: {
@@ -30,14 +30,14 @@ module.exports = {
       host: process.env.DATABASE_URL,
       user: process.env.DATABASE_USERNAME,
       password: process.env.DATABASE_PASSWORD,
-      database: 'applicants'
+      database: 'applicants',
     },
     migrations: {
-      directory: './db/migrations'
+      directory: './db/migrations',
     },
     seeds: {
-      directory: './db/seeds/production'
+      directory: './db/seeds/production',
     },
-    useNullAsDefault: true
-  }
+    useNullAsDefault: true,
+  },
 };

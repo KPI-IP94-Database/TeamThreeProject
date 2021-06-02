@@ -24,7 +24,7 @@ if (!fastify.knex) {
 // hashPassword stub
 const hashPassword = (password, salt) => ({
   passwordHash: password,
-  passwordSalt: salt
+  passwordSalt: salt,
 });
 
 if (!fastify.hashPassword) {
@@ -33,32 +33,21 @@ if (!fastify.hashPassword) {
 
 beforeAll(async () => {
   await fastify.knex.schema.createTable('user', (table) => {
-    table.increments('id')
-      .unsigned()
-      .primary();
+    table.increments('id').unsigned().primary();
 
-    table.string('email')
-      .notNullable();
+    table.string('email').notNullable();
 
-    table.string('password_hash')
-      .notNullable();
+    table.string('password_hash').notNullable();
 
-    table.string('salt')
-      .notNullable();
+    table.string('salt').notNullable();
 
-    table.string('fullname')
-      .notNullable();
+    table.string('fullname').notNullable();
 
+    table.float('grade_first').notNullable();
 
-    table.float('grade_first')
-      .notNullable();
+    table.float('grade_second').notNullable();
 
-    table.float('grade_second')
-      .notNullable();
-
-    table.float('grade_third')
-      .notNullable();
-
+    table.float('grade_third').notNullable();
 
     table.float('grade_fourth');
     table.float('grade_certificate');
@@ -84,7 +73,7 @@ describe('test inner stubs', () => {
     const fieldName = 'field';
     const fieldValue = 'value';
     const insertedObj = {
-      [fieldName]: fieldValue
+      [fieldName]: fieldValue,
     };
 
     await fastify.knex.schema.createTable(tableName, (table) => {
@@ -106,7 +95,7 @@ describe('bio endpoint test', () => {
 
     const response = await fastify.inject({
       method: 'GET',
-      url: ROUTE_URL
+      url: ROUTE_URL,
     });
 
     expect(response.statusCode).toBe(400);
@@ -119,16 +108,16 @@ describe('bio endpoint test', () => {
       method: 'GET',
       url: ROUTE_URL,
       query: {
-        'email': 'aboba@gmail.com'
-      }
+        email: 'aboba@gmail.com',
+      },
     });
 
     const responsePassword = await fastify.inject({
       method: 'GET',
       url: ROUTE_URL,
       query: {
-        'password': 'ultraSecretPassword'
-      }
+        password: 'ultraSecretPassword',
+      },
     });
 
     expect(responseEmail.statusCode).toBe(400);
@@ -142,9 +131,9 @@ describe('bio endpoint test', () => {
       method: 'GET',
       url: ROUTE_URL,
       query: {
-        'email': 'this-email-does-not-exist@gmail.com',
-        'password': 'does-not-matter'
-      }
+        email: 'this-email-does-not-exist@gmail.com',
+        password: 'does-not-matter',
+      },
     });
 
     expect(response.statusCode).toBe(404);
@@ -160,16 +149,16 @@ describe('bio endpoint test', () => {
       fullname: 'Uwuwewewe Enyuxwewewe Umgvewumem Osas',
       grade_first: '150.3',
       grade_second: '140',
-      grade_third: '198'
+      grade_third: '198',
     });
 
     const response = await fastify.inject({
       method: 'GET',
       url: ROUTE_URL,
       query: {
-        'email': 'koko@gmail.com',
-        'password': 'uraur'
-      }
+        email: 'koko@gmail.com',
+        password: 'uraur',
+      },
     });
 
     expect(response.statusCode).toBe(403);
@@ -188,7 +177,7 @@ describe('bio endpoint test', () => {
       grade_third: 198,
       grade_fourth: null,
       grade_certificate: null,
-      additional_score: null
+      additional_score: null,
     };
 
     const insertedBody = {
@@ -204,15 +193,17 @@ describe('bio endpoint test', () => {
       method: 'GET',
       url: ROUTE_URL,
       query: {
-        'email': insertedBody.email,
-        'password': insertedBody.password_hash
-      }
+        email: insertedBody.email,
+        password: insertedBody.password_hash,
+      },
     });
 
     expect(response.statusCode).toBe(statusCode);
-    expect(response.body).toEqual(JSON.stringify({
-      statusCode,
-      body,
-    }));
+    expect(response.body).toEqual(
+      JSON.stringify({
+        statusCode,
+        body,
+      })
+    );
   });
 });
