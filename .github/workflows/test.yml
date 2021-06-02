@@ -21,23 +21,6 @@ jobs:
           - 14
           - 15
 
-    services:
-      postgres:
-        image: postgres
-        env:
-          POSTGRES_DB: applicants
-          POSTGRES_PASSWORD: postgres
-          POSTGRES_HOST: localhost
-          POSTGRES_PORT: 5432
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-        ports:
-          - 5432:5432
-
-
     steps:
       - name: Check out repo
         uses: actions/checkout@v2
@@ -57,9 +40,6 @@ jobs:
 
       - name: Install deps
         run: npm ci
-
-      - name: Run migrations
-        run: npm run migrate
 
       - name: Run tests      
         run: npm test
