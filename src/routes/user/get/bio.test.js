@@ -59,36 +59,6 @@ afterAll(async () => {
   await fastify.close();
 });
 
-describe('test inner stubs', () => {
-  test('hashPassword stub should have the same interface as original', () => {
-    const result = fastify.hashPassword('password', 'salt');
-    expect(result.passwordHash).toBeDefined();
-    expect(result.passwordSalt).toBeDefined();
-  });
-
-  test('fastify.knex should work', async () => {
-    expect.assertions(1);
-
-    const tableName = 'test';
-    const fieldName = 'field';
-    const fieldValue = 'value';
-    const insertedObj = {
-      [fieldName]: fieldValue,
-    };
-
-    await fastify.knex.schema.createTable(tableName, (table) => {
-      table.string(fieldName);
-    });
-
-    await fastify.knex(tableName).insert(insertedObj);
-
-    const result = await fastify.knex.select(fieldName).from(tableName);
-    const expected = [insertedObj];
-
-    expect(result).toEqual(expected);
-  });
-});
-
 describe('bio endpoint test', () => {
   test('should return status 400 on empty properties', async () => {
     expect.assertions(1);
