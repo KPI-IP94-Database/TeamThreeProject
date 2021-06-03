@@ -27,7 +27,7 @@ if (!fastify.hashPassword) {
 // Write list of routes
 const routes = urlConstructor({
   user: {
-    create: ['application', 'new-user', 'new-university'],
+    create: ['application', 'new-user', 'new-university', 'new-faculty'],
     get: ['application-list', 'bio'],
     remove: 'application',
     update: 'password',
