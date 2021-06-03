@@ -7,7 +7,7 @@ const fastify = require('fastify')({
 const knex = require('knex');
 
 // Import and register tested plugin
-const ROUTE_URL = '/user-test/';
+const ROUTE_URL = '/';
 const plugin = require('./new-user.js')(ROUTE_URL);
 fastify.register(plugin);
 
@@ -24,7 +24,7 @@ if (!fastify.knex) {
 // hashPassword stub
 const hashPassword = (password, salt) => ({
   passwordHash: password,
-  passwordSalt: salt,
+  passwordSalt: salt || 'salt',
 });
 
 if (!fastify.hashPassword) {
@@ -94,7 +94,6 @@ describe('new-user endpoint test', () => {
     expect(responsePassword.statusCode).toBe(400);
   });
 
-
   test('should return 409 - this user already exists', async () => {
     expect.assertions(1);
 
@@ -115,13 +114,12 @@ describe('new-user endpoint test', () => {
       body: {
         email: 'test1234@gmail.com',
         password: 'r3333',
-
         fullname: 'Rick Astley',
         grade_first: 155.5,
         grade_second: 172,
         grade_third: 128,
         grade_certificate: 10.2,
-      }
+      },
     });
 
     expect(response.statusCode).toBe(409);
@@ -142,7 +140,7 @@ describe('new-user endpoint test', () => {
         grade_second: 172,
         grade_third: 128,
         grade_certificate: 10.2,
-      }
+      },
     });
 
     expect(response.statusCode).toBe(201);

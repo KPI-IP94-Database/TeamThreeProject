@@ -33,17 +33,17 @@ module.exports = (url) => async (fastify) => {
         });
         return;
       }
-      
+
       const replyBody = [];
-      existingApplications.forEach(data => {
+      for (const data of existingApplications) {
         const obj = {};
-  
+
         for (const key of Object.keys(data)) {
           obj[key] = data[key];
         }
 
         replyBody.push(obj);
-      });
+      };
 
       return {
         statusCode: 200,

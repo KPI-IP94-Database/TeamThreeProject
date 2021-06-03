@@ -24,7 +24,7 @@ if (!fastify.knex) {
 // hashPassword stub
 const hashPassword = (password, salt) => ({
   passwordHash: password,
-  passwordSalt: salt,
+  passwordSalt: salt || 'salt',
 });
 
 if (!fastify.hashPassword) {

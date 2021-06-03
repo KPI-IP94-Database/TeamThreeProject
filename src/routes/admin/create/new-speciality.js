@@ -1,10 +1,11 @@
 'use strict';
 
-
 // General scheme
 const schemeProps = {
   name: { type: 'string' },
-  university_id: { type: 'number' },
+  faculty_id: { type: 'number' },
+  budget_places: { type: 'number' },
+  commerce_places: { type: 'number' },
 };
 
 const requiredProps = Object.keys(schemeProps);
@@ -26,23 +27,26 @@ module.exports = (url) => async (fastify) => {
     handler: async (request, reply) => {
       const existing = await fastify.knex
         .select()
-        .from('faculty')
+        .from('speciality')
         .where('name', request.body.name)
-        .where('university_id', request.body.university_id);
+        .where('faculty_id', request.body.faculty_id);
 
       if (existing.length) {
         reply.code(409).send({
           statusCode: 409,
           error: 'Conflict',
-          message: 'Faculty with such name already exists for this university_id',
+          message:
+            'Speciality with such name already exists for this faculty_id',
         });
         return;
       }
 
-      await fastify.knex('faculty').insert({ 
-          name: request.body.name,
-          university_id: request.body.university_id,
-        });
+      await fastify.knex('speciality').insert({
+        name: request.body.name,
+        faculty_id: request.body.faculty_id,
+        budget_places: request.body.budget_places,
+        commerce_places: request.body.commerce_places,
+      });
 
       reply.code(201).send({
         statusCode: 201,
