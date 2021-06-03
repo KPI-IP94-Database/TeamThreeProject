@@ -23,12 +23,12 @@ module.exports = (url) => async (fastify) => {
     },
 
     handler: async (request, reply) => {
-      const existingEmails = await fastify.knex
+      const existing = await fastify.knex
         .select()
         .from('university')
         .where('name', request.body.name);
 
-      if (existingEmails.length) {
+      if (existing.length) {
         reply.code(409).send({
           statusCode: 409,
           error: 'Conflict',
