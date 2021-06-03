@@ -64,7 +64,7 @@ describe('new-user endpoint test', () => {
     expect.assertions(1);
 
     const response = await fastify.inject({
-      method: 'GET',
+      method: 'POST',
       url: ROUTE_URL,
     });
 
@@ -75,17 +75,17 @@ describe('new-user endpoint test', () => {
     expect.assertions(2);
 
     const responseEmail = await fastify.inject({
-      method: 'GET',
+      method: 'POST',
       url: ROUTE_URL,
-      query: {
+      body: {
         email: 'test@gmail.com',
       },
     });
 
     const responsePassword = await fastify.inject({
-      method: 'GET',
+      method: 'POST',
       url: ROUTE_URL,
-      query: {
+      body: {
         password: 'something123',
       },
     });
@@ -101,24 +101,26 @@ describe('new-user endpoint test', () => {
     await fastify.knex('user').insert({
       email: 'test1234@gmail.com',
       password_hash: 'r3333',
-      salt: 're2e2',
+      salt: 'r3333',
       fullname: 'Rick Astley',
-      grade_first: '155.5',
-      grade_second: '172',
-      grade_third: '128',
+      grade_first: 155.5,
+      grade_second: 172,
+      grade_third: 128,
+      grade_certificate: 10.2,
     });
 
     const response = await fastify.inject({
-      method: 'GET',
+      method: 'POST',
       url: ROUTE_URL,
-      query: {
+      body: {
         email: 'test1234@gmail.com',
-        password_hash: 'r3333',
-        salt: 're2e2',
+        password: 'r3333',
+
         fullname: 'Rick Astley',
-        grade_first: '155.5',
-        grade_second: '172',
-        grade_third: '128',
+        grade_first: 155.5,
+        grade_second: 172,
+        grade_third: 128,
+        grade_certificate: 10.2,
       }
     });
 
@@ -129,16 +131,17 @@ describe('new-user endpoint test', () => {
     expect.assertions(1);
 
     const response = await fastify.inject({
-      method: 'GET',
+      method: 'POST',
       url: ROUTE_URL,
-      query: {
-        email: 'test44444@gmail.com',
-        password_hash: 'r3232',
-        salt: 'r411112',
-        fullname: 'Michael Stevens',
-        grade_first: '125.5',
-        grade_second: '192',
-        grade_third: '125.2',
+      body: {
+        email: 'test1144444@gmail.com',
+        password: 'r32322',
+
+        fullname: 'Michael Stevenson1',
+        grade_first: 155,
+        grade_second: 172,
+        grade_third: 128,
+        grade_certificate: 10.2,
       }
     });
 
