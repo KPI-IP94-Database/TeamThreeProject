@@ -36,7 +36,9 @@ module.exports = (url) => async (fastify) => {
         return;
       }
 
-      await fastify.knex('university').insert({ name: request.body.name });
+      const { name } = request.body;
+      
+      await fastify.knex('university').insert({ name });
 
       reply.code(201).send({
         statusCode: 201,

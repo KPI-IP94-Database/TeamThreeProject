@@ -39,9 +39,14 @@ module.exports = (url) => async (fastify) => {
         return;
       }
 
+      const {
+        name,
+        university_id,
+      } = request.body;
+
       await fastify.knex('faculty').insert({
-        name: request.body.name,
-        university_id: request.body.university_id,
+        name,
+        university_id,
       });
 
       reply.code(201).send({
