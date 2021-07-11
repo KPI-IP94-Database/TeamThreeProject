@@ -1,0 +1,45 @@
+name: Testing CI
+
+on:
+  push:
+    branches:
+      - "**"
+  pull_request:
+    branches-ignore:
+      - "master"
+
+# '*' would accepted branch names without '/'.
+# So it's useful to write '**'.
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node:
+          - 14
+          - 15
+
+    steps:
+      - name: Check out repo
+        uses: actions/checkout@v2
+      
+      - name: Use Node.js ${{ matrix.node }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node }}
+      
+      - name: Cache project files
+        uses: actions/cache@v2
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: Install deps
+        run: npm ci
+
+      - name: Run tests      
+        run: npm test
