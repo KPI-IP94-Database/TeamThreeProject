@@ -8,7 +8,7 @@ const knex = require('knex');
 
 // Import and register tested plugin
 const ROUTE_URL = '/';
-const plugin = require('./bio.js')(ROUTE_URL);
+const plugin = require('./new-user.js')(ROUTE_URL);
 fastify.register(plugin);
 
 // Import configs
@@ -59,12 +59,12 @@ afterAll(async () => {
   await fastify.close();
 });
 
-describe('bio endpoint test', () => {
+describe('new-user endpoint test', () => {
   test('should return status 400 on empty properties', async () => {
     expect.assertions(1);
 
     const response = await fastify.inject({
-      method: 'GET',
+      method: 'POST',
       url: ROUTE_URL,
     });
 
@@ -75,18 +75,18 @@ describe('bio endpoint test', () => {
     expect.assertions(2);
 
     const responseEmail = await fastify.inject({
-      method: 'GET',
+      method: 'POST',
       url: ROUTE_URL,
-      query: {
-        email: 'aboba@gmail.com',
+      body: {
+        email: 'test@gmail.com',
       },
     });
 
     const responsePassword = await fastify.inject({
-      method: 'GET',
+      method: 'POST',
       url: ROUTE_URL,
-      query: {
-        password: 'ultraSecretPassword',
+      body: {
+        password: 'something123',
       },
     });
 
@@ -94,86 +94,55 @@ describe('bio endpoint test', () => {
     expect(responsePassword.statusCode).toBe(400);
   });
 
-  test('should return 404 on not existing user', async () => {
-    expect.assertions(1);
-
-    const response = await fastify.inject({
-      method: 'GET',
-      url: ROUTE_URL,
-      query: {
-        email: 'this-email-does-not-exist@gmail.com',
-        password: 'does-not-matter',
-      },
-    });
-
-    expect(response.statusCode).toBe(404);
-  });
-
-  test('should return 403 on incorrect password', async () => {
+  test('should return 409 - this user already exists', async () => {
     expect.assertions(1);
 
     await fastify.knex('user').insert({
-      email: 'koko@gmail.com',
-      password_hash: 'uraura',
-      salt: 'ura',
-      fullname: 'Uwuwewewe Enyuxwewewe Umgvewumem Osas',
-      grade_first: '150.3',
-      grade_second: '140',
-      grade_third: '198',
+      email: 'test1234@gmail.com',
+      password_hash: 'r3333',
+      salt: 'r3333',
+      fullname: 'Rick Astley',
+      grade_first: 155.5,
+      grade_second: 172,
+      grade_third: 128,
+      grade_certificate: 10.2,
     });
 
     const response = await fastify.inject({
-      method: 'GET',
+      method: 'POST',
       url: ROUTE_URL,
-      query: {
-        email: 'koko@gmail.com',
-        password: 'uraur',
+      body: {
+        email: 'test1234@gmail.com',
+        password: 'r3333',
+        fullname: 'Rick Astley',
+        grade_first: 155.5,
+        grade_second: 172,
+        grade_third: 128,
+        grade_certificate: 10.2,
       },
     });
 
-    expect(response.statusCode).toBe(403);
+    expect(response.statusCode).toBe(409);
   });
 
-  test('should return whole body on correct password', async () => {
-    expect.assertions(2);
-
-    const statusCode = 200;
-
-    const body = {
-      email: 'koko@gmail.com',
-      fullname: 'Uwuwewewe Enyuxwewewe Umgvewumem Osas',
-      grade_first: 150.3,
-      grade_second: 140,
-      grade_third: 198,
-      grade_fourth: null,
-      grade_certificate: null,
-      additional_score: null,
-    };
-
-    const insertedBody = {
-      password_hash: 'uraura',
-      salt: 'ura',
-    };
-
-    Object.assign(insertedBody, body);
-
-    await fastify.knex('user').insert(insertedBody);
+  test('should return 201 on valid user', async () => {
+    expect.assertions(1);
 
     const response = await fastify.inject({
-      method: 'GET',
+      method: 'POST',
       url: ROUTE_URL,
-      query: {
-        email: insertedBody.email,
-        password: insertedBody.password_hash,
+      body: {
+        email: 'test1144444@gmail.com',
+        password: 'r32322',
+
+        fullname: 'Michael Stevenson1',
+        grade_first: 155,
+        grade_second: 172,
+        grade_third: 128,
+        grade_certificate: 10.2,
       },
     });
 
-    expect(response.statusCode).toBe(statusCode);
-    expect(response.body).toEqual(
-      JSON.stringify({
-        statusCode,
-        body,
-      })
-    );
+    expect(response.statusCode).toBe(201);
   });
 });

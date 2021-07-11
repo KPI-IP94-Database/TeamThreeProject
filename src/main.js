@@ -32,6 +32,9 @@ const routes = urlConstructor({
     remove: 'application',
     update: 'password',
   },
+  admin: {
+    create: ['new-university', 'new-faculty', 'new-speciality'],
+  },
 });
 
 // Register plugin for every route
